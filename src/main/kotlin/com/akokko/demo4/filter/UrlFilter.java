@@ -1,9 +1,9 @@
-package com.akokko.filter;
+package com.akokko.demo4.filter;
 
 public class UrlFilter {
 
-    //所有需要传递令牌的地址
-    public static String filterPath="/assets/**,/css/**,/js/**,/fonts/**,/font-awesome-4.7.0/**,/img/**,/images/**,/packages/**,/plugins/**,/login,/regist,/verify,/checkEmail,/forget,/retrievePassword,/changePassword,/forget,/change,/back,/backlogin,/demo";
+    //所有不需要传递令牌的地址
+    public static String filterPath="/login,/signUp,/activation,/retrievePwd,/verifyCPCode,/changePwd,/checkEmail";
 
     public static boolean hasAuthorize(String url){
 

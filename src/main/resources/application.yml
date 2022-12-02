@@ -1,0 +1,18 @@
+server:
+  port: 20001
+spring:
+  application:
+    name: demo4
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://1.15.34.154:3306/demo4?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=UTC&AllowPublicKeyRetrieval=True
+  mail:
+    host: smtp.sina.com
+    username: zhminecraft@sina.com
+    password: e1037031b7b5b8a1
+    protocol: smtp
+    default-encoding: UTF-8
+cookieDomain: localhost
+cookieMaxAge: -1

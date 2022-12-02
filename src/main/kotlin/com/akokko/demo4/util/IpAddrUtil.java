@@ -1,4 +1,4 @@
-package com.akokko.util;
+package com.akokko.demo4.util;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;

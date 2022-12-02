@@ -1,4 +1,4 @@
-package com.akokko.dataanalyze.entity
+package com.akokko.demo4.entity
 
 class StatusCode {
     companion object{

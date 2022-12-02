@@ -1,4 +1,4 @@
-package com.akokko.dataanalyze.entity
+package com.akokko.demo4.entity
 
 data class Result<T>(
     var flag: Boolean,
