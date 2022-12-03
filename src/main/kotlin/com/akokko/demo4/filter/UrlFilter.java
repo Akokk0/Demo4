@@ -3,7 +3,7 @@ package com.akokko.demo4.filter;
 public class UrlFilter {
 
     //所有不需要传递令牌的地址
-    public static String filterPath="/login,/signUp,/activation,/retrievePwd,/verifyCPCode,/changePwd,/checkEmail";
+    public static String filterPath="/login,/signUp,/activation,/retrievePwd,/verifyCPCode,/changePwd,/checkEmail,/verifyToken";
 
     public static boolean hasAuthorize(String url){
 

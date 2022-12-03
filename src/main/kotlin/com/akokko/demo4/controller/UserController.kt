@@ -7,6 +7,7 @@ import com.akokko.demo4.pojo.User
 import com.akokko.demo4.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.CrossOrigin
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletResponse
 
 @RestController
+@RequestMapping("/user")
 class UserController {
 
     @Autowired
@@ -42,24 +44,44 @@ class UserController {
         return userService.retrievePwd(user)
     }
 
-    @PostMapping("verifyCPCode")
+    @PostMapping("/verifyCPCode")
     fun verifyCPCode(@RequestBody user: User): Result<User> {
         return userService.verifyCPCode(user)
     }
 
-    @PostMapping("changePwd")
+    @PostMapping("/changePwd")
     fun changePwd(@RequestBody user: User): Result<User> {
         return userService.changePwd(user)
     }
 
-    @GetMapping("verifyToken")
+    @PostMapping("/verifyToken")
     fun verifyToken(@RequestBody token: Token): Result<Token> {
         return userService.verifyToken(token)
     }
 
-    @PostMapping("checkEmail")
+    @PostMapping("/checkEmail")
     fun checkEmail(@RequestBody user: User): Result<User> {
         return userService.checkEmail(user)
+    }
+
+    @GetMapping("/getAllUser")
+    fun getAllUser(): Result<List<User>> {
+        return userService.getAllData()
+    }
+
+    @PostMapping("/addUser")
+    fun addUser(@RequestBody user: User): Result<User> {
+        return userService.addUser(user)
+    }
+
+    @DeleteMapping("/deleteUser/{id}")
+    fun deleteUser(@PathVariable("id") id: Int): Result<User> {
+        return userService.deletePerson(id)
+    }
+
+    @PostMapping("/editUser")
+    fun editUser(@RequestBody user: User): Result<User> {
+        return userService.editUser(user)
     }
 
 }

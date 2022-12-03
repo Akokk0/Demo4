@@ -7,7 +7,6 @@ import com.akokko.demo4.pojo.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
@@ -15,11 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component
-@CrossOrigin
+// @Component
 public class AuthFilter implements Filter {
 
-//    private static final String LOGIN_URL="http://akokko.com";
+    private static final String LOGIN_URL="http://akokko.com";
 
     @Autowired
     private TokenMapper tokenMapper;
@@ -43,7 +41,7 @@ public class AuthFilter implements Filter {
                 for (Cookie cookie : cookies) {
                     if ("backUid".equals(cookie.getName())) {
                         if (cookie.getValue() == null) {
-//                            this.toLoginPage(LOGIN_URL + "?FROM=" + request.getRequestURI(), response);
+                            this.toLoginPage(LOGIN_URL + "?FROM=" + request.getRequestURI(), response);
                         }
                         backUid = cookie;
                         BackToken backToken = new BackToken();
@@ -52,7 +50,7 @@ public class AuthFilter implements Filter {
 
                         if (realToken == null) {
 
-//                            this.toLoginPage(LOGIN_URL, response);
+                            this.toLoginPage(LOGIN_URL, response);
 
                         }
 
@@ -78,7 +76,7 @@ public class AuthFilter implements Filter {
                 if ("uid".equals(cookie.getName())) {
                     if (cookie.getValue() == null){
                         //跳转登录页面
-//                        this.toLoginPage(LOGIN_URL + "?FROM=" + request.getRequestURI(), response);
+                        this.toLoginPage(LOGIN_URL + "?FROM=" + request.getRequestURI(), response);
                     }
                     uid = cookie;
                     //3.从数据库中获取cookie的值,如果该值不存在,拒绝本次访问
@@ -89,7 +87,7 @@ public class AuthFilter implements Filter {
                         //拒绝访问
             /*response.setStatusCode(HttpStatus.UNAUTHORIZED);
             return response.setComplete();*/
-//                        this.toLoginPage(LOGIN_URL, response);
+                        this.toLoginPage(LOGIN_URL, response);
                     }
 
                     //4.对当前的请求对象进行增强,让它会携带令牌的信息
@@ -98,17 +96,19 @@ public class AuthFilter implements Filter {
                 }
             }
         }
-//        this.toLoginPage(LOGIN_URL, response);
+        this.toLoginPage(LOGIN_URL, response);
     }
 
     //跳转登录页面
-   /* private void toLoginPage(String loginUrl, HttpServletResponse response) {
+    private void toLoginPage(String loginUrl, HttpServletResponse response) {
         response.setStatus(HttpStatus.SEE_OTHER.value());
         response.setHeader("Location", loginUrl);
         try {
             response.sendRedirect(loginUrl);
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            return;
         }
-    }*/
+    }
 }

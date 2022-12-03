@@ -42,12 +42,15 @@ class UserService {
         } else {
             user.verify = 0
             user.code = idWorker.nextId().toString()
+            val checkUser = User()
+            checkUser.email = user.email
+            if (!checkEmail(checkUser).flag) return Result(false, StatusCode.ERROR, "该邮箱已被注册，请换一个邮箱重试！")
+            if (userMapper.insertSelective(user) == 0) return Result(false, StatusCode.ERROR, "服务器正忙，请稍后重试！")
             try {
                 emailUtil.sendHtmlMail(user.email, "激活您的账号", "<h1>这是您的验证链接，请点击验证链接激活账号:</h1><a>http://${cookieDomain}/activation/${user.code}</a>")
             } catch (e: MessagingException) {
                 return Result(false, StatusCode.ERROR, "服务器正忙，请稍后重试！")
             }
-            userMapper.insertSelective(user)
             return Result(true, StatusCode.OK, "注册成功")
         }
     }
@@ -158,6 +161,43 @@ class UserService {
             Result(false, StatusCode.ERROR, "该邮箱已被注册，请换其他邮箱重试！")
         } else {
             Result(true, StatusCode.OK, "该邮箱未被注册！")
+        }
+    }
+
+    fun getAllData(): Result<List<User>> {
+        val userData = userMapper.selectAll()
+        return if (userData.isNullOrEmpty()) {
+            Result(false, StatusCode.ERROR, "获取数据失败，请稍后重试！")
+        } else {
+            Result(true, StatusCode.OK, "获取数据成功！", userData)
+        }
+    }
+
+    fun addUser(user: User): Result<User> {
+        return signUp(user)
+    }
+
+    fun deletePerson(id: Int): Result<User> {
+        if (id == null) return Result(false, StatusCode.ERROR, "您的输入有误，请检查后重试！")
+        return if (userMapper.deleteByPrimaryKey(id) == 0) {
+            Result(false, StatusCode.ERROR, "服务器正忙，请稍后重试！")
+        } else {
+            Result(true, StatusCode.OK, "删除用户成功！")
+        }
+    }
+
+    fun editUser(user: User): Result<User> {
+        if (user.id == -1 || user.verify == -1) return Result(false, StatusCode.ERROR, "您的输入有误，请检查后重试！")
+        val editUser = User()
+        editUser.id = user.id
+        editUser.verify = user.verify
+        if (!user.name.isNullOrBlank()) editUser.name = user.name
+        if (!user.email.isNullOrBlank()) editUser.email = user.email
+        if (!user.password.isNullOrBlank()) editUser.password = user.password
+        return if (userMapper.updateByPrimaryKeySelective(editUser) == 0) {
+            Result(false, StatusCode.ERROR, "服务器正忙，请稍后重试！")
+        } else {
+            Result(true, StatusCode.OK, "更新用户成功！")
         }
     }
 
